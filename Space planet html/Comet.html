@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+  #container {
+    width: 600px;
+    height: 400px;
+    position: relative;
+    background-color: black;
+    overflow: hidden;
+  }
+  #animate {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    border-radius: 50%;
+    background-color: brown;
+    box-shadow: 0 0 10px 2px red;
+    z-index: 10;
+  }
+  .trail {
+    width: 8px;
+    height: 8px;
+    position: absolute;
+    border-radius: 50%;
+    background-color: #ff0000;
+    pointer-events: none;
+    z-index: 1;
+    transition: all 0.6s ease-out;
+  }
+
+  </style>
+</head>
+<body>
+  <button onclick="renderComet(1)"> 1 </button> 
+  <button onclick="renderComet(2)"> 2 </button> 
+  <button onclick="renderComet(3)"> 3 </button> 
+  <button onclick="renderComet(4)"> 4 </button>
+  
+  <div id="container">
+    <div id="animate"></div>
+  </div>
+
+ <script>
+  function renderComet(CometSubmit) {
+    const elem = document.getElementById("animate");
+    const container = document.getElementById("container");
+    let id = null;
+    const containerWidth = container.offsetWidth;
+    const containerHeight = container.offsetHeight;
+
+    // Clear previous animation
+    clearInterval(id);
+    elem.style.left = "0px";
+    elem.style.top = "0px";
+
+    let posX = 0;
+    let posY = 0;
+    let j = CometSubmit;
+
+    // Clear old trails
+    document.querySelectorAll('.trail').forEach(t => t.remove());
+
+    // Trail history (for smooth tail)
+    let trailPositions = [];
+
+    function createTrail(x, y) {
+      const trail = document.createElement("div");
+      trail.className = "trail";
+      trail.style.left = (x - 4) + "px";  
+      trail.style.top = (y - 4) + "px";
+      container.appendChild(trail);
+
+      // Store for fading control
+      trailPositions.push(trail);
+
+      // Fade out and remove after delay
+      setTimeout(() => {
+        trail.style.opacity = 0;
+        trail.style.transform = "scale(0.3)";
+        setTimeout(() => {
+          if (trail.parentNode) container.removeChild(trail);
+          trailPositions = trailPositions.filter(t => t !== trail);
+        }, 600);
+      }, 50); // Keep visible briefly
+    }
+
+    // Update trail every few frames
+    let trailCounter = 0;
+
+    function updateTrail(x, y) {
+      trailCounter++;
+      if (trailCounter % 3 === 0) { // Create trail every 3rd frame
+        createTrail(x, y);
+      }
+    }
+
+    // === Movement Functions ===
+    function moveComet_BotRight_BotLeft() {
+      posX += 3;
+      posY += 2;
+      elem.style.left = posX + "px";
+      elem.style.top = posY + "px";
+      updateTrail(posX + 10, posY + 10); // offset to center
+
+      if (posX > containerWidth + 50 || posY > containerHeight + 50) {
+        clearInterval(id);
+      }
+    }
+
+    function moveComet_BotLeft_TopRight() {
+      posX -= 3;
+      posY += 2;
+      elem.style.left = posX + "px";
+      elem.style.top = posY + "px";
+      updateTrail(posX + 10, posY + 10);
+
+      if (posX < -50 || posY > containerHeight + 50) {
+        clearInterval(id);
+      }
+    }
+
+    function moveComet_TopLeft_BotRight() {
+      posX += 3;
+      posY -= 2;
+      elem.style.left = posX + "px";
+      elem.style.top = posY + "px";
+      updateTrail(posX + 10, posY + 10);
+
+      if (posX > containerWidth + 50 || posY < -50) {
+        clearInterval(id);
+      }
+    }
+
+    function moveComet_BotLeft_TopLeft() {
+      posX -= 3;
+      posY -= 2;
+      elem.style.left = posX + "px";
+      elem.style.top = posY + "px";
+      updateTrail(posX + 10, posY + 10);
+
+      if (posX < -50 || posY < -50) {
+        clearInterval(id);
+      }
+    }
+
+    // === Start based on button ===
+    if (j === 1) {
+      posX = -40; posY = -20;
+      id = setInterval(moveComet_BotRight_BotLeft, 16);
+    } else if (j === 2) {
+      posX = containerWidth; posY = -20;
+      id = setInterval(moveComet_BotLeft_TopRight, 16);
+    } else if (j === 3) {
+      posX = -20; posY = containerHeight;
+      id = setInterval(moveComet_TopLeft_BotRight, 16);
+    } else if (j === 4) {
+      posX = containerWidth + 20; posY = containerHeight + 20;
+      id = setInterval(moveComet_BotLeft_TopLeft, 16);
+    }
+
+    // Initial position
+    elem.style.left = posX + "px";
+    elem.style.top = posY + "px";
+  }
+</script>

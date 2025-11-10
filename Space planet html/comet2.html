@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    #container {
+      width: 600px;
+      height: 400px;
+      position: relative;
+      background-color: blue; 
+      overflow: hidden; /* To hide any overflow from the animation */
+    }
+    #animate {
+      width: 30px; /* Adjust size as needed */
+      height: 30px; /* Adjust size as needed */
+      position: absolute;
+      background-color: red;
+      background-size: contain; /* Ensure the image fits */
+      background-repeat: no-repeat;
+      border-radius: 50%; /* Optional: To give it a comet-like shape */
+    }
+  </style>
+</head>
+<body>
+  <input type="text" id="imageURL" placeholder="Enter Image URL" />
+  <button onclick="renderComet(1)"> 1 </button>
+  <button onclick="renderComet(2)"> 2 </button>
+  <button onclick="renderComet(3)"> 3 </button>
+  <button onclick="renderComet(4)"> 4 </button>
+  <button onclick="resetAnimation()"> Reset </button>
+  <div id="container">
+    <div id="animate"></div>
+  </div>
+
+  <script>
+    function setImage(url) {
+      const elem = document.getElementById("animate");
+      elem.style.backgroundImage = `url(${url})`;
+    }
+
+    function resetAnimation() {
+      const elem = document.getElementById("animate");
+      elem.style.left = '0px';
+      elem.style.top = '0px';
+      elem.style.backgroundImage = '';
+    }
+    
+    function renderComet(CometSubmit) {
+      const elem = document.getElementById("animate");
+      const container = document.getElementById("container");
+      const imageURL = ;
+
+      if (imageURL) {
+        setImage(imageURL);
+      } else {
+        alert("Please enter a valid image URL.");
+        return;
+      }
+
+      let id = null;
+      const containerWidth = container.offsetWidth; 
+      const containerHeight = container.offsetHeight; 
+
+      clearInterval(id); 
+
+      // Set initial X, Y coordinates 
+      let posX = 0; 
+      let posY = 0; 
+
+      // Set comet speed (lower is faster)
+      let cometVelocity = Math.random() * 30 + 10; // Numbers 10-40;
+
+      if (CometSubmit === 1) { 
+        posX = -40; 
+        posY = -10;                 
+        id = setInterval(moveComet_BotRight_BotLeft, cometVelocity); 
+	  } else if (CometSubmit === 2) { 
+	    posX = 500; 
+	    posY = 0;                 
+	    id = setInterval(moveComet_BotLeft_TopRight, cometVelocity); 
+	  } else if (CometSubmit === 3) { 
+	    posX = -100; 
+	    posY = 400;                 
+	    id = setInterval(moveComet_TopLeft_BotRight, cometVelocity); 
+	  } else if (CometSubmit === 4) { 
+	    posX = 400; 
+	    posY = 400;                 
+	    id = setInterval(moveComet_BotLeft_TopLeft, cometVelocity); 
+	  }
+
+      function updatePosition() {
+        elem.style.left = posX + "px";
+        elem.style.top = posY + "px";
+
+        if (posX > containerWidth || posY > containerHeight || posX < -30 || posY < -30) {  
+          clearInterval(id); 
+        }
+      }
+
+      function moveComet_BotLeft_TopLeft() {
+        posX -= 3; 
+        posY -= 2; 
+        updatePosition();
+      }
+
+      function moveComet_BotLeft_TopRight() {
+        posX -= 3; 
+        posY += 2; 
+        updatePosition();
+      }
+
+      function moveComet_TopLeft_BotRight() {
+        posX -= 2; 
+        posY += 1; 
+        updatePosition();
+      }
+
+      function moveComet_BotRight_BotLeft() {
+        posX += 3; 
+        posY += 2; 
+        updatePosition();
+      }
+    }
+  </script>
+</body>
+</html>
