@@ -1,0 +1,29 @@
+/* 
+Chad Carmickle 
+11/13/25 
+
+You are tasked with creating a C++ program that converts temperatures between Celsius and Kelvin based on user-provided values.
+
+*/ 
+#include <iostream>
+using namespace std;
+double CelsiusToKelvin(double valueCelsius) {
+   double valueKelvin;
+   valueKelvin = valueCelsius + 273.15;
+   return valueKelvin;
+}
+// Took me a bit from the confusing prompt that they just wanted me to reverse 
+// what the other function did. 
+double KelvinToCelsius(double valueKelvin) {
+   valueKelvin = valueKelvin - 273.15;
+   return valueKelvin;
+}
+int main() {
+   double valueC;
+   double valueK;
+   valueC = 10.0;
+   cout << valueC << " C is " << CelsiusToKelvin(valueC) << " K" << endl;
+   cin >> valueK;
+   cout << valueK << "  is " << KelvinToCelsius(valueK) << " C" << endl;
+   return 0;
+}
