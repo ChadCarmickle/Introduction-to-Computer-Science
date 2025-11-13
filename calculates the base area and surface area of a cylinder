@@ -1,0 +1,53 @@
+/* 
+Chad Carmickle 
+Nov 11th 2025
+
+You are tasked with creating a C++ program that calculates the base area and surface area of a cylinder based on user-provided dimensions: radius and height.
+
+
+
+
+#include <iostream>
+#include <iomanip>
+#include <cmath>
+using namespace std;
+
+
+double CalcBaseArea(double CylinderRadius) { 
+    double Area = (M_PI * (CylinderRadius * CylinderRadius)); 
+    return Area; 
+} 
+
+
+double CalcSurfaceArea(double CylinderRadius, double CylinderHeight) { 
+    double SurfaceArea = (2 * CalcBaseArea(CylinderRadius) + (2 * M_PI * CylinderRadius * CylinderHeight)); 
+    return SurfaceArea; 
+}
+
+
+int main() {
+   double userRadius;
+double userHeight;
+
+
+   cin >> userRadius;
+cin >> userHeight;
+
+
+   cout << fixed << setprecision(1);
+
+
+   cout << "Radius: " << userRadius << endl;
+cout << "Height: " << userHeight << endl;
+
+
+   cout << "Base area: ";
+   cout << CalcBaseArea(userRadius) << endl;
+
+
+   cout << "Surface area: ";
+   cout << CalcSurfaceArea(userRadius, userHeight) << endl;
+
+
+   return 0;
+}
