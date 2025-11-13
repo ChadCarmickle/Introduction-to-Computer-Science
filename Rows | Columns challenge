@@ -1,0 +1,47 @@
+/* 
+Chad Carmickle 
+11/13/25 
+
+In Xan's garden center, each plant tray is labeled with a letter followed by an integer. Given integers numRows and numColumns, output the label for each plant tray, followed by a space. End each row with a newline.
+
+Ex: If the input is 2 4, then the output is:
+A1 A2 A3 A4 
+B1 B2 B3 B4 
+
+Note:
+Rows are in alphabetical order. Plant trays in the first row all start with the letter A.
+Columns are in ascending order. Plant trays in the first column all end with the integer 1.
+ 
+*/
+
+
+
+#include <iostream>
+using namespace std;
+
+int main() {
+   int numRows;
+   int numColumns;
+   int currentRow;
+   char currentRowLetter;
+   int currentColumn;
+   int currentColumnInteger;
+   
+ //  cin >> numRows;
+ //  cin >> numColumns;
+    numRows = 7; 
+    numColumns = 1; 
+    char letters[26] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
+    
+   for (int i = 0; i<numRows; i++) { 
+      
+        for(int j = 1; j <= numColumns ; j++) { 
+          
+          cout << letters[i] << j << " ";   
+        } 
+        cout << endl; 
+   } 
+   
+
+   return 0;
+}
